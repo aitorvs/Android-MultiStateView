@@ -31,6 +31,7 @@ public class MultiStateView extends FrameLayout {
     private View mNetworkErrorView;
     private View mGeneralErrorView;
     private OnClickListener mTapToRetryClickListener;
+    private boolean isTapToRetryDisabled;
 
     public MultiStateView(Context context) {
         this(context, null);
@@ -293,6 +294,10 @@ public class MultiStateView extends FrameLayout {
         return null;
     }
 
+    public void disableTapToRetry(boolean disable) {
+        isTapToRetryDisabled = disable;
+    }
+
     /**
      * Returns the view to be displayed for the case of a network error
      *
@@ -304,7 +309,12 @@ public class MultiStateView extends FrameLayout {
             mNetworkErrorView = View.inflate(getContext(), mViewState.networkErrorLayoutResId, null);
 
             ((TextView) mNetworkErrorView.findViewById(R.id.error_title)).setText(getNetworkErrorTitleString());
-            ((TextView) mNetworkErrorView.findViewById(R.id.tap_to_retry)).setText(getTapToRetryString());
+            if (isTapToRetryDisabled) {
+                mNetworkErrorView.findViewById(R.id.tap_to_retry).setVisibility(GONE);
+            } else {
+                mNetworkErrorView.findViewById(R.id.tap_to_retry).setVisibility(VISIBLE);
+                ((TextView) mNetworkErrorView.findViewById(R.id.tap_to_retry)).setText(getTapToRetryString());
+            }
 
             mNetworkErrorView.setOnClickListener(mTapToRetryClickListener);
 
@@ -325,7 +335,12 @@ public class MultiStateView extends FrameLayout {
             mGeneralErrorView = View.inflate(getContext(), mViewState.generalErrorLayoutResId, null);
 
             ((TextView) mGeneralErrorView.findViewById(R.id.error_title)).setText(getGeneralErrorTitleString());
-            ((TextView) mGeneralErrorView.findViewById(R.id.tap_to_retry)).setText(getTapToRetryString());
+            if (isTapToRetryDisabled) {
+                mGeneralErrorView.findViewById(R.id.tap_to_retry).setVisibility(GONE);
+            } else {
+                mGeneralErrorView.findViewById(R.id.tap_to_retry).setVisibility(VISIBLE);
+                ((TextView) mGeneralErrorView.findViewById(R.id.tap_to_retry)).setText(getTapToRetryString());
+            }
 
             mGeneralErrorView.setOnClickListener(mTapToRetryClickListener);
 
