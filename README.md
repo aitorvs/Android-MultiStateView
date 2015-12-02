@@ -2,8 +2,6 @@ This project is a fork of [Android-MultiStateView](https://github.com/MeetMe/And
 
 # Gradle Dependency
 
-[![Release](https://img.shields.io/github/release/afollestad/assent.svg?label=jitpack)](https://jitpack.io/#afollestad/assent)
-
 ### Repository
 
 ```gradle
