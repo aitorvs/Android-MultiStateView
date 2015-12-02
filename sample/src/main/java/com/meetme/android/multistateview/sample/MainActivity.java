@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.meetme.android.multistateview.MultiStateView;
 
@@ -23,6 +24,13 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         mMultiStateView = (MultiStateView) findViewById(R.id.multistateview);
+
+        mMultiStateView.setOnTapToRetryClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "Retry", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override

@@ -148,6 +148,29 @@ and now you can set the state of the layout like so:
     //...
 ```
 
+### Retry
+
+Default behaviour is to show a retry button. You could register a listener for that button like so:
+
+```java
+        //... more code here
+        
+        mMultiStateView.setOnTapToRetryClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "Retry", Toast.LENGTH_SHORT).show();
+            }
+        });
+```
+
+If otherwise you don't want to use that button, it can be disabled and removed from the state view.
+
+```java
+        //... more code here
+        
+        mMultiStateView.disableTapToRetry(true);
+```
+
 ## License
 
  Apache 2.0
