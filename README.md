@@ -100,7 +100,7 @@ Set `MultiStateView` as parent of the layout you want to give state content. `Mu
     </com.meetme.android.multistateview.MultiStateView>
 ```
 
-You can get a reference to the layout like so:
+You can get a reference to the layout.
 
 ```java
     @Override
@@ -112,7 +112,7 @@ You can get a reference to the layout like so:
 
 ```
 
-and now you can set the state of the layout like so:
+Change the state of the layout:
 
 - change to **network error** state:
 
@@ -148,7 +148,7 @@ and now you can set the state of the layout like so:
 
 ### Retry
 
-Default behaviour is to show a retry button. You could register a listener for that button like so:
+Default behaviour is to show a retry button. You could register a listener for that button.
 
 ```java
         //... more code here
@@ -161,7 +161,7 @@ Default behaviour is to show a retry button. You could register a listener for t
         });
 ```
 
-If otherwise you don't want to use that button, it can be disabled and removed from the state view.
+Or otherwise disable and remove it from the state view.
 
 ```java
         //... more code here
