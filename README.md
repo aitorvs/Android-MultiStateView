@@ -1,10 +1,12 @@
+This project is a fork of [Android-MultiStateView](https://github.com/MeetMe/Android-MultiStateView)
+
 # MultiStateView
-Handles multiple display states for data-centric views
+It is a wrapper Layout that helps you changing the view content depending on its state. Possible states are:
 
- - Content state; shows the inner content of the View (as defined in XML)
- - Loading state; shows a Loading state (as specified either via the `loadingLayout` attribute, or the default layout (`res/layout/msv__loading.xml`)
-
-The following shows examples (using default layouts) for **Loading**, **General Error**, **Network Error**, and the **Content** states (where we've made the "Hello World" the content) in respective order.
+- state **Network Error**, shows a network error banner
+- state **General Error**, shows a general error banner
+- state **Loading**, shows a loading spinner
+- state **Content**, shows the content of the child view
 
 ![Loading state](screenshots/sample_loading.png)&nbsp;&nbsp;![General error state](screenshots/sample_general_error.png)
 
@@ -12,85 +14,119 @@ The following shows examples (using default layouts) for **Loading**, **General 
 
 ## Usage
 
- - For whatever `View` you want to switch out with `MultiStateView`, wrap the `View` in a `MultiStateView` node.
- - In code, get your reference to the child of `MultiStateView` via `MultiStateView#getContentView()` and cast that value as needed. There's no good reason to put an `android:id` on the child `View`.
+Set `MultiStateView` as parent of the layout you want to give state content. `MultiStateView` extends from `FrameLayout` so it can be placed as layout most external parent.
 
 **Example**
 
-- Assuming you're starting with:
+- This is your original layout:
 
 ```xml
-        <LinearLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:orientation="vertical" >
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/multistateview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:context="com.meetme.android.multistateview.sample.MainActivity"
+        tools:showIn="@layout/activity_main">
 
-            <ListView
-                android:id="@+id/list"
-                android:layout_width="fill_parent"
-                android:layout_height="match_parent" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/hello_world"
+            android:textColor="#f33"
+            android:textSize="24sp"
+            android:textStyle="bold" />
 
-        </LinearLayout>
+    </FrameLayout>
 ```
 
-- You should end up with something like:
+- This would be your **multi-state** layout:
 
 ```xml
-        <LinearLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:orientation="vertical" >
+    <com.meetme.android.multistateview.MultiStateView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/multistateview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:context="com.meetme.android.multistateview.sample.MainActivity"
+        tools:showIn="@layout/activity_main">
 
-            <com.meetme.android.multistateview.MultiStateView
-                android:id="@+id/list_container"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/hello_world"
+            android:textColor="#f33"
+            android:textSize="24sp"
+            android:textStyle="bold" />
 
-                <ListView
-                    android:layout_width="fill_parent"
-                    android:layout_height="match_parent" />
-
-            </com.meetme.android.multistateview.MultiStateView>
-
-        </LinearLayout>
+    </com.meetme.android.multistateview.MultiStateView>
 ```
 
-  **Example Notes**
- 0. `android:id="@+id/list"` was moved from the `ListView` to the `MultiStateView`
- 0. It was also renamed to `list_container` to note that it now is the parent of the `ListView`
- 0. Any references in code should now use `MultiStateView#getContentView()` casted to `ListView` to reference the `ListView` child. There's no good reason to put an `id` on the `ListView`. See below.
-
-- In code,
+You can get a reference to the layout like so:
 
 ```java
-ListView list = (ListView) findViewById(R.id.list);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        //...
+
+        mMultiStateView = (MultiStateView) findViewById(R.id.multistateview);
+    }
+
 ```
 
-- Becomes
+and now you can set the state of the layout like so:
+
+- change to **network error** state:
 
 ```java
-MultiStateView container = (MultiStateView) findViewById(R.id.list_container);
-ListView list = (ListView) container.getContentView();
+    //...
+    mMultiStateView.setState(MultiStateView.ContentState.ERROR_NETWORK);
+    //...
 ```
 
-- To control the state of the `MultiStateView`, use the `MultiStateView#setState(State)` method.
+- change to **general error** state:
 
 ```java
-container.setState(State.LOADING);
+    //...
+    mMultiStateView.setState(MultiStateView.ContentState.ERROR_GENERAL);
+    //...
 ```
 
-- By default, "Loading" indication uses the loading layout provided in the library (`res/layout/msv__loading.xml`). To customize, you can add the custom attribute `msvLoadingLayout` to the `MultiStateView` in XML with a reference to the layout to inflate.
+- change to **loading** state:
 
-## Contributors
- - [Dallas Gutauckis](http://github.com/dallasgutauckis)
+```java
+    //...
+    mMultiStateView.setState(MultiStateView.ContentState.LOADING);
+    //...
+```
+
+- change to **content** state:
+
+```java
+    //...
+    mMultiStateView.setState(MultiStateView.ContentState.CONTENT);
+    //...
+```
 
 ## License
 
  Apache 2.0
 
-    Copyright 2013 MeetMe, Inc.
+    Copyright 2013 aitorvs, Inc.
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -103,7 +139,3 @@ container.setState(State.LOADING);
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     See the License for the specific language governing permissions and
     limitations under the License.
-
-## Contributing
-
-To make contributions, fork this repository, commit your changes, and submit a pull request.
