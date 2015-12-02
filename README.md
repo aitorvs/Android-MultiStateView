@@ -1,3 +1,4 @@
+# MultiStateView
 This project is a fork of [Android-MultiStateView](https://github.com/MeetMe/Android-MultiStateView)
 
 # Gradle Dependency
@@ -24,7 +25,8 @@ dependencies {
 ```
 --
 
-# MultiStateView
+# Basics
+
 It is a wrapper Layout that helps you changing the view content depending on its state. Possible states are:
 
 - state **Network Error**, shows a network error banner
