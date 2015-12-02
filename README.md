@@ -1,5 +1,31 @@
 This project is a fork of [Android-MultiStateView](https://github.com/MeetMe/Android-MultiStateView)
 
+# Gradle Dependency
+
+[![Release](https://img.shields.io/github/release/afollestad/assent.svg?label=jitpack)](https://jitpack.io/#afollestad/assent)
+
+### Repository
+
+```gradle
+repositories {
+    maven { url "https://jitpack.io" }
+}
+```
+
+### Dependency
+
+```gradle
+dependencies {
+
+    // ... other dependencies here
+
+    compile('com.github.aitorvs.multistateview:0.1.0') {
+        transitive = true
+    }
+}
+```
+--
+
 # MultiStateView
 It is a wrapper Layout that helps you changing the view content depending on its state. Possible states are:
 
