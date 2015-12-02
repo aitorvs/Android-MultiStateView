@@ -4,8 +4,19 @@
     tools:context="com.meetme.android.multistateview.sample.MainActivity">
 
     <item
-        android:id="@+id/action_rotate_state"
-        android:title="@string/action_rotate_state"
-        android:orderInCategory="100"
-        app:showAsAction="always" />
+        android:id="@+id/action_network_error"
+        android:title="@string/action_network_error"
+        android:orderInCategory="100" />
+    <item
+        android:id="@+id/action_general_error"
+        android:title="@string/action_general_error"
+        android:orderInCategory="100" />
+    <item
+        android:id="@+id/action_loading"
+        android:title="@string/action_loading"
+        android:orderInCategory="100" />
+    <item
+        android:id="@+id/action_content"
+        android:title="@string/action_content"
+        android:orderInCategory="100" />
 </menu>

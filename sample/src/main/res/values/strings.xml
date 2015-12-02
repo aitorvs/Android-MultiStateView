@@ -3,6 +3,10 @@
 
     <string name="app_name">MultiStateView Sample</string>
     <string name="hello_world">Hello world!</string>
-    <string name="action_rotate_state">Next State</string>
+    <string name="title_activity_main">MultiStateView</string>
+    <string name="action_content">Content</string>
+    <string name="action_general_error">Error</string>
+    <string name="action_network_error">Network error</string>
+    <string name="action_loading">Loading</string>
 
 </resources>

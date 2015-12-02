@@ -1,79 +1,52 @@
 package com.meetme.android.multistateview.sample;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
+import android.view.View;
 
 import com.meetme.android.multistateview.MultiStateView;
 
-
-public class MainActivity extends ActionBarActivity {
-    MultiStateView.ContentState mState;
+public class MainActivity extends AppCompatActivity {
 
     private MultiStateView mMultiStateView;
-
-    private TextView mExampleOfHowToGetContentView;
-
-    private TextView mStateView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
-        mStateView = (TextView) findViewById(R.id.state);
-        mMultiStateView = (MultiStateView) findViewById(R.id.content);
+        mMultiStateView = (MultiStateView) findViewById(R.id.multistateview);
     }
-
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-
-        mState = mMultiStateView.getState();
-        mExampleOfHowToGetContentView = (TextView) mMultiStateView.getContentView();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        setStateText(mState);
-    }
-
-    private void setStateText(MultiStateView.ContentState state) {
-        mStateView.setText(String.format("State: %s", state));
-    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        if (id == R.id.action_rotate_state) {
-            // This is only done because we're rotating state; you'd typically just call direct to mMultiStateView#setState(ContentState)
-            MultiStateView.ContentState newState = MultiStateView.ContentState.values()[(mState.ordinal() + 1) % MultiStateView.ContentState.values().length];
-
-            setState(newState);
-            return true;
+        switch(item.getItemId()) {
+            case R.id.action_network_error:
+                mMultiStateView.setState(MultiStateView.ContentState.ERROR_NETWORK);
+                return true;
+            case R.id.action_general_error:
+                mMultiStateView.setState(MultiStateView.ContentState.ERROR_GENERAL);
+                return true;
+            case R.id.action_loading:
+                mMultiStateView.setState(MultiStateView.ContentState.LOADING);
+                return true;
+            case R.id.action_content:
+                mMultiStateView.setState(MultiStateView.ContentState.CONTENT);
+                return true;
         }
-
         return super.onOptionsItemSelected(item);
-    }
-
-    public void setState(MultiStateView.ContentState state) {
-        setStateText(state);
-        mMultiStateView.setState(state);
-        mState = state;
     }
 }
