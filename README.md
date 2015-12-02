@@ -18,7 +18,7 @@ dependencies {
 
     // ... other dependencies here
 
-    compile('com.github.aitorvs.multistateview:0.1.0')
+    compile 'com.github.aitorvs.multistateview:0.1.0'
 }
 ```
 --
